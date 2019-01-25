@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Lista de Tareas</h1>
+  <!-- It won't show if there is no student data -->
+  <a routerLink="/task" class="btn btn-success" *ngIf="hideWhenNoStudent">
+    <i class="fas fa-plus custom-fa-plus"></i>
+    Añadir Tarea
+  </a>
+</div>
+
+<div class="pricing-header mx-auto">
+
+  <div class="no-data text-center" *ngIf="preLoader">
+    <img src="assets/preloader.gif" class="preloader-icon" alt="No student">
+  </div>
+
+  <div class="no-data text-center" *ngIf="noData">
+    <img src="assets/no-student.svg" class="nodata-msg" alt="No student">
+    <p class="nodata-msg">No existe tareas registradas!</p>
+    <a routerLink="/register-student" class="btn btn-success">
+      <i class="fas fa-plus custom-fa-plus"></i>
+      Añadir Tarea
+    </a>
+  </div>
+
+  <div class="table-responsive" *ngIf="hideWhenNoStudent">
+    <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg">
+      <thead>
+        <tr>
+          <th scope="col">Proyecto</th>
+          <th scope="col">Nombre de Tarea</th>
+          <th scope="col">Tiempo de Tarea</th>
+          <th class="text-center" scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr *ngFor="let student of Student| paginate: { itemsPerPage: 7, currentPage: p }; let i = index;">
+          <th scope="row">{{student.$key}}</th>
+          <td>{{student.firstName}} {{student.lastName}}</td>
+          <td>{{student.email}}</td>
+          <td class="text-center action-block">
+            <!-- routerLink="/edit-student/{{student.$key}}" is refered to { path: 'edit-student/:id', component: EditStudentComponent } in app-routing.moudles.ts -->
+            <i class="far fa-edit" routerLink="/task/{{student.$key}}"></i>
+            <i class="far fa-trash-alt" (click)="deleteStudent(student)"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Pagination -->
+  <pagination-controls (pageChange)="p = $event" autoHide="true" responsive="true"></pagination-controls>
+</div>
