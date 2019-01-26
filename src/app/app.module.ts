@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+
 
 // Components
 import { AddStudentComponent } from './add-student/add-student.component';
@@ -36,6 +38,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase), // Main Angular fire module 
     AngularFireDatabaseModule,  // Firebase database module 
     ReactiveFormsModule,        // Reactive forms module

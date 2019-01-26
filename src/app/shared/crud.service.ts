@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tasks } from '../shared/student';  // Student data type interface class
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';  // Firebase modules for Database, Data list and Single object
@@ -10,7 +10,7 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angula
 })
 
 export class CrudService {
-  tasksRef: Tasks[];    // Reference to Student data list, its an Observable
+  tasksRef: any;    // Reference to Student data list, its an Observable
   TaskRef: AngularFireObject<any>;   // Reference to Student object, its an Observable too
   
   // Inject AngularFireDatabase Dependency in Constructor
@@ -45,17 +45,9 @@ export class CrudService {
   }
 
   // Fetch Students List
-  GetStudentsList() {
-
-  //  this.tasksRef = JSON.parse(localStorage.getItem('tasks'));
-    return this._http.get('https://jsonplaceholder.typicode.com/users').pipe(
-      map(resultados => {
-
-        localStorage.setItem('user', JSON.stringify(resultados));
-
-        return resultados;
-      }));
-    //return this.tasksRef;
+  GetStudentsList(): Observable<any> {
+    this.tasksRef=  from(JSON.parse(localStorage.getItem('tasks')));
+    return this.tasksRef;
   }  
 
   // Update Student Object

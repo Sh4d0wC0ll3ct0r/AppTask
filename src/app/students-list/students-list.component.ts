@@ -25,17 +25,18 @@ export class StudentsListComponent implements OnInit {
     ){ }
 
 
-  ngOnInit() {
-    this.dataState(); // Initialize student's list, when component is ready
-    this.crudApi.GetStudentsList().subscribe(data => {
 
-      this.Tasks = [];
-      data.forEach(item => {
-        let a = item.payload.toJSON(); 
-        a['$key'] = item.key;
-        this.Tasks.push(a as Tasks);
-      })
-    })
+
+  ngOnInit() {
+  //  this.dataState(); // Initialize student's list, when component is ready
+    this.crudApi.GetStudentsList().subscribe(
+      response => {
+          this.Tasks  = response;
+          console.log(this.Tasks);
+    },error => {
+        console.log('Error al obtener las tareas');
+      }
+    )
   }
 
   // Using valueChanges() method to fetch simple list of students data. It updates the state of hideWhenNoStudent, noData & preLoader variables when any changes occurs in student data list in real-time.
